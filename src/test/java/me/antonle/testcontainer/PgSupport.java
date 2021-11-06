@@ -18,7 +18,7 @@ public class PgSupport {
     static {
         final var circleCI = Boolean.parseBoolean(System.getenv("CIRCLECI"));
         if (circleCI) {
-            DB_URL = "jdbc:postgresql://localhost:5432/backend";
+            DB_URL = "jdbc:postgresql://localhost:5432/" + DB_NAME;
             PG = null;
         } else {
             PG = new PostgreSQLContainer<>("postgres:9.6.12")
