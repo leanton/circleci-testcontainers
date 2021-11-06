@@ -16,12 +16,18 @@ public class PgSupport {
     private static final String DB_USER = "test";
 
     static {
-        PG = new PostgreSQLContainer<>("postgres:9.6.12")
-            .withDatabaseName(DB_NAME)
-            .withUsername(DB_USER)
-            .withPassword(DB_USER);
-        PG.start();
-        DB_URL = PG.getJdbcUrl();
+        final var circleCI = Boolean.parseBoolean(System.getenv("CIRCLECI"));
+        if (circleCI) {
+            DB_URL = "jdbc:postgresql://localhost:5432/backend";
+            PG = null;
+        } else {
+            PG = new PostgreSQLContainer<>("postgres:9.6.12")
+                .withDatabaseName(DB_NAME)
+                .withUsername(DB_USER)
+                .withPassword(DB_USER);
+            PG.start();
+            DB_URL = PG.getJdbcUrl();
+        }
 
         try {
             PG_CLIENT = DriverManager.getConnection(DB_URL, DB_USER, DB_USER);
