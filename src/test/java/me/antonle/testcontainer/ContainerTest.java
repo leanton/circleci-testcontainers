@@ -10,8 +10,6 @@ public class ContainerTest extends PgSupport {
 
     @Test
     void should_connect_to_database() {
-        assertTrue(PG.isCreated());
-        assertTrue(PG.isRunning());
 
         try (var statement = PG_CLIENT.createStatement()) {
             var execute = statement.execute("SELECT 1");

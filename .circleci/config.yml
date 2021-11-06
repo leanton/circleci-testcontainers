@@ -1,0 +1,19 @@
+version: 2.1
+
+jobs:
+  build:
+    working_directory: ~/repo
+
+    docker:
+      - image: cimg/openjdk:11.0.12
+        environment:
+          JVM_OPTS: -Xmx100m
+      - image: postgres:9.6.12
+        environment:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: db
+
+    steps:
+      - checkout
+      - run: ./gradlew check
